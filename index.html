@@ -12,8 +12,10 @@
         <h1>VEREGORN'S LIVE VALIDATED FORM</h1>
         <p>All the fields are required</p>
         <form novalidate>
-            <input type="email" name="mail" id="mail" required placeholder="Email">
-            <span class="error" aria-live="polite"></span>
+            <div class="pair">
+                <input type="email" name="mail" id="mail" required placeholder="Email">
+                <span class="error" aria-live="polite"></span>
+            </div>
             <!--surround the select box with a "custom-select" DIV element. Remember to set the width:-->
             <div class="custom-select">
                 <select>
@@ -31,14 +33,20 @@
                     <option value="United Kingdom">United Kingdom</option>
                     <option value="United States">United States</option>
                 </select>
+                <span class="error" aria-live="polite"></span>
             </div>
-            <span class="error" aria-live="polite"></span>
-            <input type="text" name="zip" id="zip" placeholder="Zip Code (XXXXX-XXXX)" required>
-            <span class="error" aria-live="polite"></span>
-            <input type="password" name="password" id="password" placeholder="Password (8 characters min)" required minlength="8">
-            <span class="error" aria-live="polite"></span>
-            <input type="password" name="repassword" id="repassword" placeholder="Confirm Password" required>
-            <span class="error" aria-live="polite"></span>
+            <div class="pair">
+                <input type="text" name="zip" id="zip" placeholder="Zip Code (XXXXX-XXXX)" required>
+                <span class="error" aria-live="polite"></span>
+            </div>
+            <div class="pair">
+                <input type="password" name="password" id="password" placeholder="Password (8 characters min)" required minlength="8">
+                <span class="error" aria-live="polite"></span>
+            </div>
+            <div class="pair">
+                <input type="password" name="repassword" id="repassword" placeholder="Confirm Password" required>
+                <span class="error" aria-live="polite"></span>
+            </div> 
             <input type="submit" value="Send" class="button">
         </form>
     </div>

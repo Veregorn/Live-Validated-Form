@@ -1,28 +1,56 @@
+// Form validation code
+const email = document.getElementById("mail");
+const emailError = document.querySelector("#mail + span.error");
+
+function showError(e) {
+    if (e == email) {
+        if (email.validity.valueMissing) {
+            // If the field is empty I remember the user it's required
+            emailError.textContent = "You need to enter an e-mail address";
+        } else if (email.validity.typeMismatch) {
+            // If the format is invalid display the following error
+            emailError.textContent = "Entered value needs to be an e-mail address";
+        }
+    } else {
+        
+    }
+}
+
+email.addEventListener("blur", () => {
+    // When user leaves input mail, we check if the field is valid
+    if (email.validity.valid) {
+        // In case there is an error message visible and the field is valid yet, remove the error message
+        emailError.textContent = "";
+    } else {
+        showError(email);
+    }
+});
+
 /* This code is for the custom select control */
 
 var x, i, j, l, ll, selElmnt, a, b, c;
-/*look for any elements with the class "custom-select":*/
+/* look for any elements with the class "custom-select": */
 x = document.getElementsByClassName("custom-select");
 l = x.length;
 for (i = 0; i < l; i++) {
   selElmnt = x[i].getElementsByTagName("select")[0];
   ll = selElmnt.length;
-  /*for each element, create a new DIV that will act as the selected item:*/
+  /* for each element, create a new DIV that will act as the selected item: */
   a = document.createElement("DIV");
   a.setAttribute("class", "select-selected");
   a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
   x[i].appendChild(a);
-  /*for each element, create a new DIV that will contain the option list:*/
+  /* for each element, create a new DIV that will contain the option list: */
   b = document.createElement("DIV");
   b.setAttribute("class", "select-items select-hide");
   for (j = 1; j < ll; j++) {
-    /*for each option in the original select element,
-    create a new DIV that will act as an option item:*/
+    /* for each option in the original select element,
+    create a new DIV that will act as an option item: */
     c = document.createElement("DIV");
     c.innerHTML = selElmnt.options[j].innerHTML;
     c.addEventListener("click", function(e) {
-        /*when an item is clicked, update the original select box,
-        and the selected item:*/
+        /* when an item is clicked, update the original select box,
+        and the selected item: */
         var y, i, k, s, h, sl, yl;
         s = this.parentNode.parentNode.getElementsByTagName("select")[0];
         sl = s.length;
@@ -46,8 +74,8 @@ for (i = 0; i < l; i++) {
   }
   x[i].appendChild(b);
   a.addEventListener("click", function(e) {
-      /*when the select box is clicked, close any other select boxes,
-      and open/close the current select box:*/
+      /* when the select box is clicked, close any other select boxes,
+      and open/close the current select box: */
       e.stopPropagation();
       closeAllSelect(this);
       this.nextSibling.classList.toggle("select-hide");
@@ -56,7 +84,7 @@ for (i = 0; i < l; i++) {
 }
 function closeAllSelect(elmnt) {
   /*a function that will close all select boxes in the document,
-  except the current select box:*/
+  except the current select box: */
   var x, y, i, xl, yl, arrNo = [];
   x = document.getElementsByClassName("select-items");
   y = document.getElementsByClassName("select-selected");
@@ -75,6 +103,6 @@ function closeAllSelect(elmnt) {
     }
   }
 }
-/*if the user clicks anywhere outside the select box,
-then close all select boxes:*/
+/* if the user clicks anywhere outside the select box,
+then close all select boxes: */
 document.addEventListener("click", closeAllSelect);
