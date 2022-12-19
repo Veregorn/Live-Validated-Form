@@ -1,10 +1,17 @@
 // Form validation code
 const email = document.getElementById("mail");
+const emailRegExp = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const emailError = document.querySelector("#mail + span.error");
 
 const zip = document.getElementById("zip");
-const regExp = /\d{5}-\d{4}/;
+const zipRegExp = /\d{5}-\d{4}/;
 const zipError = document.querySelector("#zip + span.error");
+
+const pass = document.getElementById("password");
+const passError = document.querySelector("#password + span.error");
+
+const repass = document.getElementById("repassword");
+const repassError = document.querySelector("#repassword + span.error");
 
 function checkPattern(regExp, elem) {
     return regExp.test(elem.value);
@@ -12,37 +19,79 @@ function checkPattern(regExp, elem) {
 
 function showError(e) {
     if (e == email) {
+        emailError.classList.add("active");
+        email.classList.add("invalid");
         if (email.validity.valueMissing) {
           // If the field is empty I remember the user it's required
           emailError.textContent = "You need to enter an e-mail address";
-        } else if (email.validity.typeMismatch) {
+        } else if (!checkPattern(emailRegExp,email)) {
           // If the format is invalid display the following error
-          emailError.textContent = "Entered value needs to be an e-mail address";
+          emailError.textContent = "Entered value needs to be a valid e-mail address (xxx@xxx.xxx)";
         }
     } else if (e == zip) {
+        zipError.classList.add("active");
+        zip.classList.add("invalid");
         if (zip.validity.valueMissing) {
           zipError.textContent = "You need to enter a zip code";
-        } else if (!checkPattern(regExp,zip)) {
+        } else if (!checkPattern(zipRegExp,zip)) {
           zipError.textContent = "Entered value needs to match the pattern XXXXX-XXXX, being Xs numbers 0-9";
+        }
+    } else if (e == pass) {
+        passError.classList.add("active");
+        pass.classList.add("invalid");
+        if (pass.validity.valueMissing) {
+          passError.textContent = "You need to enter a password";
+        } else if (pass.validity.tooShort) {
+          passError.textContent = "Password's length must be at least 8 characters";
+        }
+    } else if (e == repass) {
+        repassError.classList.add("active");
+        repass.classList.add("invalid");
+        if (repass.value !== pass.value) {
+          repassError.textContent = "Both passwords must be the same";
         }
     }
 }
 
 email.addEventListener("blur", () => {
     // When user leaves input mail, we check if the field is valid
-    if (email.validity.valid) {
+    if (email.validity.valid && checkPattern(emailRegExp,email)) {
         // In case there is an error message visible and the field is valid yet, remove the error message
         emailError.textContent = "";
+        emailError.classList.remove("active");
+        email.classList.remove("invalid");
     } else {
         showError(email);
     }
 });
 
 zip.addEventListener("blur", () => {
-    if (zip.validity.valid && checkPattern(regExp,zip)) {
+    if (zip.validity.valid && checkPattern(zipRegExp,zip)) {
         zipError.textContent = "";
+        zipError.classList.remove("active");
+        zip.classList.remove("invalid");
     } else {
         showError(zip);
+    }
+});
+
+pass.addEventListener("blur", () => {
+    if (pass.validity.valid) {
+        passError.textContent = "";
+        passError.classList.remove("active");
+        pass.classList.remove("invalid");
+    } else {
+        showError(pass);
+    }
+});
+
+repass.addEventListener("blur", () => {
+    if (repass.value === pass.value) {
+        repassError.textContent = "";
+        repassError.classList.remove("active");
+        repass.classList.remove("invalid");
+    } else {
+        showError(repass);
     }
 });
 
