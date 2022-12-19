@@ -2,17 +2,29 @@
 const email = document.getElementById("mail");
 const emailError = document.querySelector("#mail + span.error");
 
+const zip = document.getElementById("zip");
+const regExp = /\d{5}-\d{4}/;
+const zipError = document.querySelector("#zip + span.error");
+
+function checkPattern(regExp, elem) {
+    return regExp.test(elem.value);
+}
+
 function showError(e) {
     if (e == email) {
         if (email.validity.valueMissing) {
-            // If the field is empty I remember the user it's required
-            emailError.textContent = "You need to enter an e-mail address";
+          // If the field is empty I remember the user it's required
+          emailError.textContent = "You need to enter an e-mail address";
         } else if (email.validity.typeMismatch) {
-            // If the format is invalid display the following error
-            emailError.textContent = "Entered value needs to be an e-mail address";
+          // If the format is invalid display the following error
+          emailError.textContent = "Entered value needs to be an e-mail address";
         }
-    } else {
-        
+    } else if (e == zip) {
+        if (zip.validity.valueMissing) {
+          zipError.textContent = "You need to enter a zip code";
+        } else if (!checkPattern(regExp,zip)) {
+          zipError.textContent = "Entered value needs to match the pattern XXXXX-XXXX, being Xs numbers 0-9";
+        }
     }
 }
 
@@ -23,6 +35,14 @@ email.addEventListener("blur", () => {
         emailError.textContent = "";
     } else {
         showError(email);
+    }
+});
+
+zip.addEventListener("blur", () => {
+    if (zip.validity.valid && checkPattern(regExp,zip)) {
+        zipError.textContent = "";
+    } else {
+        showError(zip);
     }
 });
 
